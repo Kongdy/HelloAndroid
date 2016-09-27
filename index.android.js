@@ -11,7 +11,8 @@ import {
   Text,
   TouchableHighlight,
   View,
-  ToastAndroid
+  ToastAndroid,
+  TextInput,
 } from 'react-native';
 
 class HelloAndroid extends Component {
@@ -28,6 +29,8 @@ class HelloAndroid extends Component {
       onPress={() => ToastAndroid.show('文本被点击了', ToastAndroid.SHORT)}
       **/
       <View style={styles.container}>
+          <TextInput style={styles.myTextInputStyle1}
+           placeholder="请输入文字" numberOfLines={1} underlineColorAndroid="blue" secureTextEntry={true}/>
           <TouchableHighlight  style={{flex:1,backgroundColor:'purple'}} onPress={this.clickMenuListener.bind(this)} underlayColor={'blue'}
           activeOpacity={0.5}>
             <Text style={styles.customText}>
@@ -37,7 +40,6 @@ class HelloAndroid extends Component {
       </View>
     );
   };
-
 };
 // function clickMenuListener(eventname) {
 //     ToastAndroid.show('点击了按钮', ToastAndroid.SHORT);
@@ -48,8 +50,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  myTextInputStyle1:{
+    fontSize:20,
+    justifyContent:'center',
+    textAlign:"center",
   },
   /**
   alignSelf的对齐方式主要有四种：flex-start、 flex-end、 center、  auto、 stretch。
@@ -61,9 +67,10 @@ const styles = StyleSheet.create({
     fontWeight:'900',
   },
   btn:{
-    position:'relative',
-    flex:1,
-    borderRadius:20,
+    borderRadius:30,
+    marginLeft:30,
+    marginRight:30,
+    marginTop:20,
     alignItems:'center',
     borderColor:'blue',
     borderWidth:5,
