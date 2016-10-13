@@ -10,6 +10,8 @@ import {
   StyleSheet,
   View,
   Navigator,
+  StatusBar,
+  BackAndroid,
 } from 'react-native';
 
 import Home from './pages/Home';
@@ -23,6 +25,7 @@ class MyApp extends React.Component {
       super(props);
       this.renderScene = this.renderScene.bind(this);
       this.goBack = this.goBack.bind(this);
+      BackAndroid.addEventListener('hardwareBackPress',this.goBack);
     }
 
   configureScene(route,routeStack){
@@ -47,6 +50,11 @@ class MyApp extends React.Component {
           onPress={() => ToastAndroid.show('文本被点击了', ToastAndroid.SHORT)}
           **/
           <View style={{flex:1}}>
+          <StatusBar
+              barStyle='light-content'
+              backgroundColor='red'
+              style={{height: 120}}
+         />
             <Navigator
               ref='navigator'
               style={styles.navigator}
@@ -65,12 +73,6 @@ class MyApp extends React.Component {
 
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F5FCFF',
-    flex:1,
-    alignItems:'center',
-    flexDirection:'row',
-  },
   navigator:{
     backgroundColor: '#F5FCFF',
     flex:1,

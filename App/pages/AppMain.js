@@ -12,10 +12,20 @@ import {
   ToastAndroid,
 } from 'react-native';
 
+import {NaviGoBack} from '../utils/CommonUtils'
 
 class AppMain extends Component {
   constructor(props){
       super(props);
+      this.goBack = this.goBack.bind(this);
+  }
+
+/**
+ 返回
+**/
+  goBack() {
+      const {navigator} = this.props;
+      return NaviGoBack(navigator);
   }
 
   render(){

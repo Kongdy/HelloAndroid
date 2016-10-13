@@ -45,6 +45,7 @@ class Home extends React.Component {
 
   render(){
     return (
+      <View style={styles.container}>
       <View style={styles.centerChild}>
       <Image
         source={{uri:'https://facebook.github.io/react/img/logo_og.png'}}
@@ -73,11 +74,18 @@ class Home extends React.Component {
         </Text>
       </TouchableHighlight>
       </View>
+            </View>
     );
   }
 };
 
 const styles = StyleSheet.create({
+    container: {
+      backgroundColor: '#F5FCFF',
+      flex:1,
+      alignItems:'center',
+      flexDirection:'row',
+    },
   centerChild:{
     flexWrap:'wrap',
     alignSelf:'center',
