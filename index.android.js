@@ -3,82 +3,9 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-  ToastAndroid,
-  TextInput,
 } from 'react-native';
-
-class HelloAndroid extends Component {
-  /**
-  如果是集成Component写法，里面方法不用谢function关键字，
-  另外一种 React.createClass({}); 需要写function
-  **/
-  clickMenuListener(eventname) {
-      ToastAndroid.show('点击了按钮', ToastAndroid.SHORT);
-  }
-  render() {
-    return (
-      /** 额外一种点击事件写法
-      onPress={() => ToastAndroid.show('文本被点击了', ToastAndroid.SHORT)}
-      **/
-      <View style={styles.container}>
-          <TextInput style={styles.myTextInputStyle1}
-           placeholder="请输入文字" numberOfLines={1} underlineColorAndroid="blue" secureTextEntry={true}/>
-          <TouchableHighlight  style={{flex:1,backgroundColor:'purple'}} onPress={this.clickMenuListener.bind(this)} underlayColor={'blue'}
-          activeOpacity={0.5}>
-            <Text style={styles.customText}>
-              点击按钮
-            </Text>
-          </TouchableHighlight>
-      </View>
-    );
-  };
-};
-// function clickMenuListener(eventname) {
-//     ToastAndroid.show('点击了按钮', ToastAndroid.SHORT);
-// }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  myTextInputStyle1:{
-    fontSize:20,
-    justifyContent:'center',
-    textAlign:"center",
-  },
-  /**
-  alignSelf的对齐方式主要有四种：flex-start、 flex-end、 center、  auto、 stretch。
-  **/
-  customText:{
-    textAlign:"center",
-    color:'#FFFFFF',
-    fontSize:50,
-    fontWeight:'900',
-  },
-  btn:{
-    borderRadius:30,
-    marginLeft:30,
-    marginRight:30,
-    marginTop:20,
-    alignItems:'center',
-    borderColor:'blue',
-    borderWidth:5,
-    justifyContent:'center',
-    backgroundColor:"purple",
-    borderRadius:10,
-    alignSelf:'center',
-  },
-});
-
-AppRegistry.registerComponent('HelloAndroid', () => HelloAndroid);
+import Root from './App/Root'
+AppRegistry.registerComponent('HelloAndroid', () => Root);
