@@ -15,6 +15,7 @@ import{
   Image,
   ToastAndroid,
   InteractionManager,
+  Modal,
 } from 'react-native';
 
 import AppMain from './AppMain';
@@ -22,6 +23,11 @@ import AppMain from './AppMain';
 class Home extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      animationType:'none',
+      modalVisible:true,
+      transparent:false,
+    };
   }
 
   /**
@@ -30,6 +36,7 @@ class Home extends React.Component {
   **/
   clickMenuListener(eventname) {
       ToastAndroid.show('点击了按钮', ToastAndroid.SHORT);
+      this.setState({modalVisible:false});
       const{navigator} = this.props;
       InteractionManager.runAfterInteractions(
         ()=>{
@@ -45,8 +52,18 @@ class Home extends React.Component {
 
   render(){
     return (
+      /**
+       * 模态视图
+       */
+       <Modal
+         animationType={this.state.animationType}
+         transparent={this.state.transparent}
+         visible={this.state.modalVisible}
+         onRequestClose={() => this.clickMenuListener.bind(this)}
+         >
       <View style={styles.container}>
       <View style={styles.centerChild}>
+
       <Image
         source={{uri:'https://facebook.github.io/react/img/logo_og.png'}}
         style={styles.image}
@@ -75,6 +92,8 @@ class Home extends React.Component {
       </TouchableHighlight>
       </View>
             </View>
+    </Modal>
+
     );
   }
 };

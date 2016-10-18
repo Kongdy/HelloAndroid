@@ -12,10 +12,18 @@ import {
   Navigator,
   StatusBar,
   BackAndroid,
+  Platform,
+  WebView,
 } from 'react-native';
 
 import Home from './pages/Home';
+import HeadView from './widgets/HeadView'
 import {NaviGoBack} from './utils/CommonUtils';
+
+/**
+ 状态栏高度
+**/
+export const STATUS_BAR_HEIGHT = (Platform.Os === 'ios'?20:25)
 
 var _navigator;
 
@@ -52,8 +60,8 @@ class MyApp extends React.Component {
           <View style={{flex:1}}>
           <StatusBar
               barStyle='light-content'
-              backgroundColor='red'
-              style={{height: 120}}
+              backgroundColor='purple'
+              style={{height: 1}}
          />
             <Navigator
               ref='navigator'
