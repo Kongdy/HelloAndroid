@@ -14,6 +14,7 @@ import {
   BackAndroid,
   Platform,
   WebView,
+  Text,
 } from 'react-native';
 
 import Home from './pages/Home';
@@ -72,20 +73,39 @@ class MyApp extends React.Component {
                 component:Home,
                 name:'Home',
               }}
+              navigationBar={
+                <Navigator.NavigationBar
+                routeMapper={{
+                  LeftButton:(route,navigator) => {
+                    return (<Text style={styles.navigatorText}>Cancel</Text>);
+                  },
+                  RightButton:(route,navigator) =>{
+                    return (<Text style={styles.navigatorText}>Done</Text>);
+                  },
+                  Title:(route,navigator) => {
+                    return (<Text style={styles.navigatorText}>name</Text>);
+                  },
+                }}
+                style={{flexDirection:'row',flex:1,backgroundColor:'purple',borderWidth:1,justifyContent:'center',alignSelf:'center',alignItems:'center'}}
+                />
+              }
               />
           </View>
       );
   }
 };
 
-
-
 const styles = StyleSheet.create({
   navigator:{
     backgroundColor: '#F5FCFF',
     flex:1,
     flexDirection:'row',
-  }
+  },
+  navigatorText:{
+    textAlign:'center',
+    justifyContent:'center',
+    fontSize:17,
+  },
 });
 
 export default MyApp;

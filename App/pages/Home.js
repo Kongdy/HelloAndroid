@@ -40,7 +40,7 @@ class Home extends React.Component {
       const{navigator} = this.props;
       InteractionManager.runAfterInteractions(
         ()=>{
-          navigator.push(
+          navigator.resetTo(
             {
               component:AppMain,
               name:'要爆炸了！',
@@ -55,12 +55,7 @@ class Home extends React.Component {
       /**
        * 模态视图
        */
-       <Modal
-         animationType={this.state.animationType}
-         transparent={this.state.transparent}
-         visible={this.state.modalVisible}
-         onRequestClose={() => this.clickMenuListener.bind(this)}
-         >
+
       <View style={styles.container}>
       <View style={styles.centerChild}>
 
@@ -92,7 +87,6 @@ class Home extends React.Component {
       </TouchableHighlight>
       </View>
             </View>
-    </Modal>
 
     );
   }

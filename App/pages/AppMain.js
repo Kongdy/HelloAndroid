@@ -33,7 +33,7 @@ class AppMain extends Component {
   render(){
     var drawerView = (
       <View style={{flex:1,backgroundColor:'purple'}}>
-        <Text style={{fontSize:20,color:'white',textAlign:'center'}}>
+        <Text style={{fontSize:20,color:'purple',textAlign:'center'}}>
           this is a drawer view text!!
         </Text>
       </View>
@@ -42,10 +42,10 @@ class AppMain extends Component {
       return(
         <DrawerLayoutAndroid
           drawerWidth={300}
-         drawerPosition={DrawerLayoutAndroid.positions.Right}
+         drawerPosition={DrawerLayoutAndroid.positions.Left}
          renderNavigationView={() => drawerView}
          >
-          <View style={{flex:1,backgroundColor:'purple'}}>
+          <View style={{flex:1,backgroundColor:'white'}}>
               <Text style={{alignSelf:'center',justifyContent:'center',fontSize:20,textAlign:'center'}}>
                   welcome to react native!
               </Text>
