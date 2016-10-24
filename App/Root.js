@@ -5,6 +5,7 @@
  @author kongdy
 **/
 
+'use strict'; // 启用严格模式
 import React,{Component} from 'react';
 import {Provider} from 'react-redux';
 import {

@@ -4,6 +4,7 @@
  app 首页
 **/
 
+'use strict'; // 启用严格模式
 import React,{Component} from 'react';
 import {
   AppRegistry,

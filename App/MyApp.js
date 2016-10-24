@@ -4,6 +4,7 @@
  app主模块
 **/
 
+'use strict'; // 启用严格模式
 import React,{Component} from 'react';
 
 import {
@@ -15,6 +16,8 @@ import {
   Platform,
   WebView,
   Text,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 
 import Home from './pages/Home';
@@ -50,9 +53,11 @@ class MyApp extends React.Component {
     _navigator = navigator;
     return(
       <Component
-      navigator={navigator} route={route} />
+      navigator={navigator} route={route} name='Home' />
     );
   }
+
+
   render() {
       return(
           /** 额外一种点击事件写法
@@ -76,17 +81,31 @@ class MyApp extends React.Component {
               navigationBar={
                 <Navigator.NavigationBar
                 routeMapper={{
-                  LeftButton:(route,navigator) => {
-                    return (<Text style={styles.navigatorText}>Cancel</Text>);
+                  LeftButton:(route,navigator,index,navState) => {
+                    return (  navigator.getCurrentRoutes().length > 1?<View style={styles.navContaier}>
+                      <TouchableOpacity  onPress={() => this.goBack()}>
+                        <Text style={styles.navigatorText}>Back</Text>
+                      </TouchableOpacity>
+                      </View>:
+                      <View style={styles.navContaier}>
+                        <Image style={styles.logoStyle} source={require('../img/header_logo.png')}/>
+                    </View>);
                   },
-                  RightButton:(route,navigator) =>{
-                    return (<Text style={styles.navigatorText}>Done</Text>);
+                  RightButton:(route,navigator,index,navState) =>{
+                    return (<View style={styles.navContaier}>
+                      <TouchableOpacity>
+                      <Text style={styles.navigatorText}>Done</Text>
+                      </TouchableOpacity>
+                    </View>);
                   },
-                  Title:(route,navigator) => {
-                    return (<Text style={styles.navigatorText}>name</Text>);
+                  Title:(route,navigato,index,navState) => {
+                    return (<View style={styles.navContaier}>
+                        <Text style={styles.titleText}>{route.name}</Text>
+                        </View>
+                    );
                   },
                 }}
-                style={{flexDirection:'row',flex:1,backgroundColor:'purple',borderWidth:1,justifyContent:'center',alignSelf:'center',alignItems:'center'}}
+                style={styles.navContaier}
                 />
               }
               />
@@ -97,14 +116,31 @@ class MyApp extends React.Component {
 
 const styles = StyleSheet.create({
   navigator:{
-    backgroundColor: '#F5FCFF',
     flex:1,
-    flexDirection:'row',
+  },
+  navContaier:{
+    backgroundColor:'purple',
+    paddingTop:12,
+    paddingBottom:10,
   },
   navigatorText:{
     textAlign:'center',
-    justifyContent:'center',
-    fontSize:17,
+    fontSize:18 ,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  titleText:{
+    fontSize: 18,
+   color: '#fff',
+   textAlign: 'center',
+   alignItems: 'center',
+   justifyContent: 'center',
+   fontWeight: 'bold',
+   flex: 1
+  },
+  logoStyle:{
+    height:35,
+    width:40,
   },
 });
 
