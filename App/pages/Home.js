@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
       flex:1,
       alignItems:'center',
       flexDirection:'row',
-      marginTop:65,
+      marginTop:55,
     },
   centerChild:{
     flexWrap:'wrap',

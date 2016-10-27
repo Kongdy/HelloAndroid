@@ -17,9 +17,11 @@ import {
   TouchableHighlight,
   StyleSheet,
   Image,
+  InteractionManager,
 } from 'react-native';
 
-import {NaviGoBack} from '../utils/CommonUtils'
+import {NaviGoBack} from '../utils/CommonUtils';
+import MyItem from './MyItem';
 
 class AppMain extends Component {
   constructor(props){
@@ -58,6 +60,17 @@ class AppMain extends Component {
 
   listItemOnPress(rowData){
     ToastAndroid.show('You click position:'+rowData,ToastAndroid.SHORT);
+    const{navigator} = this.props;
+    InteractionManager.runAfterInteractions(
+      () => {
+        navigator.push(
+        {
+          component:MyItem,
+          name:'MyItem',
+        }
+      );
+    }
+    );
   }
 
 /**
@@ -94,7 +107,7 @@ class AppMain extends Component {
           drawerWidth={300}
          drawerPosition={DrawerLayoutAndroid.positions.Left}
          renderNavigationView={() => drawerView}
-         style={{marginTop:50}}
+         style={{marginTop:55}}
          >
           <View style={{flex:1,backgroundColor:'white'}}>
               <ListView
