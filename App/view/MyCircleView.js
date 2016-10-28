@@ -11,7 +11,7 @@ View,
 StyleSheet,
 } from 'react-native';
 
-class MyCircleview extends React.Component {
+class MyCircleView extends React.Component {
 
   /**
    * 控件属性
@@ -55,5 +55,5 @@ const styles = StyleSheet.create({
     backgroundColor:'purple',
   },
 });
-
-module.exports=MyCircleview;
+// module.exports=MyCircleview;
+export default MyCircleView;

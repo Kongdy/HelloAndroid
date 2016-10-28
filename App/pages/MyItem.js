@@ -5,14 +5,13 @@
  */
 
 'use strict';
-
 import React,{Component} from 'react';
 import {
 View,
 StyleSheet,
 } from 'react-native';
 
-import MyCircleview from 'react-native-my-circleview';
+import MyCircleView from '../view/MyCircleView';
 
 class MyItem extends React.Component {
 
@@ -22,9 +21,9 @@ class MyItem extends React.Component {
 
     render(){
       return(<View style={styles.containerlayout}>
-          <MyCircleview
-            radius={100}
-            bgColor={'white'}
+          <MyCircleView
+          radius={100}
+          bgColor={'white'}
           />
       </View>);
     }
