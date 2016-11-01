@@ -18,6 +18,7 @@ import {
   StyleSheet,
   Image,
   InteractionManager,
+  Dimensions,
 } from 'react-native';
 
 import {NaviGoBack} from '../utils/CommonUtils';
@@ -121,14 +122,16 @@ class AppMain extends Component {
   }
 
   pageItemRenderView(rowData,selectId,rowId) {
-    console.log(rowData);
     return(
-      <View style={[styles.rowContainer,{flex:1}]}>
+      <View>
+         <Text style={{flexWrap:'wrap',position:'absolute',fontSize:20,color:'white',backgroundColor:'rgba(128,0,128,0.8)',width:Dimensions.get('window').width,zIndex:99999
+       ,bottom:0}}>
+           {rowData.left.wname}
+         </Text>
         <Image
          source={{uri:rowData.left.imageurl}}
-         style={{flex:1,resizeMode:'stretch'}}/>
-      </View>
-    );
+         style={{resizeMode:'stretch',width:Dimensions.get('window').width,flex:1}}/>
+      </View>);
   }
 
   render(){
