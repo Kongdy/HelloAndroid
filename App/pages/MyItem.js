@@ -9,22 +9,82 @@ import React,{Component} from 'react';
 import {
 View,
 StyleSheet,
+ToastAndroid,
 } from 'react-native';
 
 import MyCircleView from '../view/MyCircleView';
+
+const progressValue = 75;
 
 class MyItem extends React.Component {
 
     constructor(props){
       super(props);
+      this.state = {
+        percent:0,
+      }
+    }
+
+/**
+ * 生命周期，控件初始化完毕之后
+ */
+    componentDidMount(){
+      this.startProgressAnima();
+    }
+
+/**
+ * 生命周期，控件更新完成之后
+ */
+    componentDidUpdate() {
+      if(this.state.percent >= progressValue){
+        clearInterval(this.intval);
+      }
+    }
+
+/**
+ * 生命周期，控件即将从界面移除
+ */
+    componentWillUnmount(){
+      this.intval && clearInterval(this.intval);
+    }
+
+    startProgressAnima() {
+      let self = this;
+      this.intval = setInterval(
+        ()=>{
+          let s =  this.state.percent%100;
+          s += 1;
+          self.setState({
+            percent:s,
+          })
+        },
+        1000/60
+      );
+    }
+
+    onMyCirclePress(){
+      this.state = {
+        percent:0,
+      }
+      ToastAndroid.show('click',ToastAndroid.SHORT);
+      clearInterval(this.intval);
+      this.startProgressAnima();
     }
 
     render(){
       return(<View style={styles.containerlayout}>
+
+        <View style={[styles.circleFatherStyle,{
+
+        }]}>
           <MyCircleView
-          radius={100}
-          bgColor={'white'}
+            radius={100}
+            bgColor={'white'}
+            percent={this.state.percent}
+            borderWidth={20}
+            onPress={()=>this.onMyCirclePress()}
           />
+          </View>
       </View>);
     }
 }
@@ -35,6 +95,10 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     marginTop:55,
   },
+  circleFatherStyle:{
+    marginTop:20,
+    alignItems:'center',
+  }
 });
 
 export default MyItem;

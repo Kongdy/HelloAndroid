@@ -82,19 +82,19 @@ class MyApp extends React.Component {
                 <Navigator.NavigationBar
                 routeMapper={{
                   LeftButton:(route,navigator,index,navState) => {
-                    return (  navigator.getCurrentRoutes().length > 1?<View style={styles.navContaier}>
+                    return (navigator.getCurrentRoutes().length > 1?<View style={styles.navContaier}>
                       <TouchableOpacity  onPress={() => this.goBack()}>
                         <Text style={styles.navigatorText}>Back</Text>
                       </TouchableOpacity>
                       </View>:
                       <View style={styles.navContaier}>
                         <Image style={styles.logoStyle} source={require('../img/header_logo.png')}/>
-                    </View>);
+                      </View>);
                   },
                   RightButton:(route,navigator,index,navState) =>{
                     return (<View style={styles.navContaier}>
                       <TouchableOpacity>
-                      <Text style={styles.navigatorText}>Done</Text>
+                        <Text style={styles.navigatorText}>Done</Text>
                       </TouchableOpacity>
                     </View>);
                   },
