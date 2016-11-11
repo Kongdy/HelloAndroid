@@ -14,8 +14,14 @@ PanResponder,
 ToastAndroid,
 } from 'react-native';
 
-class MyCircleView extends React.Component {
+// 最新坐标
+var lastLeft = 0;
+var lastTop = 0;
+// 坐标存根
+var previousLeft = 0;
+var previousTop = 0;
 
+class MyCircleView extends React.Component {
   /**
    * 控件属性
    * @type {Object}
@@ -33,6 +39,7 @@ class MyCircleView extends React.Component {
 
     this.onStartShouldSetPanResponder = this.onStartShouldSetPanResponder.bind(this);
     this.onPanResponderEnd = this.onPanResponderEnd.bind(this);
+    this.onPanResponderMove = this.onPanResponderMove.bind(this);
   }
 
 /**
@@ -46,6 +53,7 @@ class MyCircleView extends React.Component {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder:this.onStartShouldSetPanResponder,
       onPanResponderEnd:this.onPanResponderEnd,
+      onPanResponderMove:this.onPanResponderMove,
     });
   }
 
@@ -73,20 +81,57 @@ class MyCircleView extends React.Component {
  * 当手指触摸在屏幕上，是否愿意成为触摸事件的触发者
  */
   onStartShouldSetPanResponder(evt,gestureState) {
+    if(evt.locationX <0 || evt.locationY < 0) {
+      ToastAndroid.show("lost",ToastAndroid.SHORT);
+      return false;
+    }
     return true;
+  }
+
+/**
+ * 触摸点移动的时候，是否愿意成为响应者
+ *
+ *gestureState:{
+ *  param: stateID ：滑动手势的 ID，在一次完整的交互中此 ID 保持不变；
+ *         moveX 和 moveY ：自上次回调，手势移动距离；
+ *         x0 和 y0 ：滑动手势识别开始的时候的在屏幕中的坐标；
+ *         dx 和 dy ：从手势开始时，到当前回调是移动距离；
+ *         vx 和 vy ：当前手势移动的速度；
+ *         numberActiveTouches ：当期触摸手指数量。
+ *}
+ *evt:{
+ *  param: identifier ：触摸的 ID，一般对应手指，在多点触控的时候，用来区分是哪个手指的触摸事件；
+ *         locationX 和 locationY ：触摸点相对组件的位置；
+ *         pageX 和 pageY ：触摸点相对于屏幕的位置；
+ *         timestamp ：当前触摸的事件的时间戳，可以用来进行滑动计算；
+ *         target ：接收当前触摸事件的组件 ID；
+ *         changedTouches ：evt 数组，从上次回调上报的触摸事件，到这次上报之间的所有事件数组。因为用户触摸过程中，会产生大量事件，有时候可能没有及时上报，系统用这种方式批量上报；
+ *         touches ：evt 数组，多点触摸的时候，包含当前所有触摸点的事件。
+ *}
+ *
+ */
+  onMoveShouldSetPanResponder(evt,gestureState){
+    return true;
+  }
+
+/**
+ * 正在滑动
+ */
+  onPanResponderMove(evt,gestureState) {
   }
 
   /**
    * 用户放开的触摸点
    */
   onPanResponderEnd() {
+    previousLeft = lastLeft;
+    previousTop = lastTop;
     this.props.onPress();
   }
 
   render(){
     return(
       <View
-      {...this._panResponder.panHandlers}
       style={[styles.containerlayout,{
       backgroundColor:this.props.bgColor,
       borderRadius:this.props.radius,
@@ -129,7 +174,9 @@ class MyCircleView extends React.Component {
       </View>
 
       {/* 内部遮盖 */}
-      <View style={[styles.innerCircle,{
+      <View
+        {...this._panResponder.panHandlers}
+        style={[styles.innerCircle,{
         width:(this.props.radius-this.state.borderWidth)*2,
         height:(this.props.radius-this.state.borderWidth)*2,
         borderRadius:this.props.radius-this.state.borderWidth,
@@ -137,7 +184,6 @@ class MyCircleView extends React.Component {
         top:this.state.borderWidth,
         backgroundColor:'#fff',
       }]}
-      onPress={this.props.onPress}
         >
         <Text style={[styles.innerText,{
         }]}
