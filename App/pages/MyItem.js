@@ -13,6 +13,11 @@ ToastAndroid,
 } from 'react-native';
 
 import MyCircleView from '../view/MyCircleView';
+/**
+ * 引入滚动
+ * tabView
+ */
+import ScrollableTabView,{DefaultTabBar} from 'react-native-scrollable-tab-view';
 
 const progressValue = 75;
 
@@ -72,11 +77,18 @@ class MyItem extends React.Component {
     }
 
     render(){
-      return(<View style={styles.containerlayout}>
+      return(<ScrollableTabView
+        style={styles.containerlayout}
+        renderTabBar={() => <DefaultTabBar/>}
+        tabBarUnderlineColor='purple'
+        tabBarActiveTextColor='purple'
+        tabBarBackgroundColor='white'
+        tabBarInactiveTextColor='black'
+        tabBarTextStyle={{fontSize:17}}>
 
         <View style={[styles.circleFatherStyle,{
-
-        }]}>
+        }]}
+         tabLabel="MyProgressView">
           <MyCircleView
             radius={100}
             bgColor={'white'}
@@ -85,7 +97,9 @@ class MyItem extends React.Component {
             onPress={()=>this.onMyCirclePress()}
           />
           </View>
-      </View>);
+          <View tabLabel="otherCustomeView">
+          </View>
+      </ScrollableTabView>);
     }
 }
 

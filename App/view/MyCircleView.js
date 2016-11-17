@@ -22,7 +22,7 @@ var previousLeft = 0;
 var previousTop = 0;
 
 class MyCircleView extends React.Component {
-  /**
+  /**git
    * 控件属性
    * @type {Object}
    */
