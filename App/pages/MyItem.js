@@ -13,6 +13,7 @@ ToastAndroid,
 } from 'react-native';
 
 import MyCircleView from '../view/MyCircleView';
+import MyWaveView from '../view/MyWaveView'
 /**
  * 引入滚动
  * tabView
@@ -97,7 +98,11 @@ class MyItem extends React.Component {
             onPress={()=>this.onMyCirclePress()}
           />
           </View>
-          <View tabLabel="otherCustomeView">
+          <View style={[styles.circleFatherStyle,{
+          }]}
+          tabLabel="otherCustomeView">
+            <MyWaveView
+            />
           </View>
       </ScrollableTabView>);
     }
