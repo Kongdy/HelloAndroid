@@ -13,7 +13,7 @@ ToastAndroid,
 } from 'react-native';
 
 import MyCircleView from '../view/MyCircleView';
-import MyWaveView from '../view/MyWaveView'
+import MyWaveView from '../view/MyWaveView';
 /**
  * 引入滚动
  * tabView
@@ -118,6 +118,6 @@ const styles = StyleSheet.create({
     marginTop:20,
     alignItems:'center',
   }
-});
+})
 
 export default MyItem;
