@@ -24,8 +24,8 @@ const {
   Transform,
   Surface,
   Path,
+  Text,
   Pattern,
-  Circle,
   LinearGradient,
   RadialGradient,
   ClippingRectangle,
@@ -39,18 +39,19 @@ const {
  * @type {Boolean}
  */
 const scaleLoopFlag = true;
+const radiusBuffer = 0;
 
 class MyWaveView extends React.Component{
 
   constructor(props) {
     super(props);
-
     this.state = {
       /**
        * 半径
        * @type {Number}
        */
       radius:40.0,
+      externalCircleAlpha:1,
     }
   }
 
@@ -59,16 +60,25 @@ class MyWaveView extends React.Component{
     this.intval = setInterval(
       ()=>{
       let radius = this.state.radius;
+      let alpha = this.state.externalCircleAlpha;
       if(radius > 50.0) {
         scaleLoopFlag = false;
-      } else if(radius < 40.0) {
+        radius = 40.0;
+      } else {
         scaleLoopFlag = true;
+        radius+=0.4;
       }
-      scaleLoopFlag?radius += 0.2:radius -= 0.2;
+
+      alpha = 1.0-(radius-40.0)/10.0;
+      if(alpha < 0.01)
+        alpha = 0.01;
+      if(alpha > 1)
+        alpha = 1;
       self.setState({
         radius:radius,
+        externalCircleAlpha:alpha,
       });
-    },1000/60);
+    },1);
   }
 
 componentWillUnmount() {
@@ -76,33 +86,29 @@ componentWillUnmount() {
 }
 
   render(){
-    const path = new Path().
-    lineTo(150+this.state.radius-40,50+this.state.radius-40)
-    .arcTo(150+this.state.radius-40,100+this.state.radius-40,this.state.radius)
+    const path = new Path()
+    .moveTo(150+(this.state.radius-40)/2,50-this.state.radius+40)
+    .arcTo(150+(this.state.radius-40)/2,100+this.state.radius-40,this.state.radius)
     .close();
-
+    const pathInner = new Path()
+    .lineTo(144,50)
+    .arcTo(144,100,36)
+    .close();
+    const pathText = new Path()
+    .moveTo(135,150)
+    .lineTo(135,250);
+    const color = "rgba(128,0,128,"+this.state.externalCircleAlpha+")";
     return(
       <View style={styles.containerLayout}>
-        {/* 先来个狗逼圆！ */}
-
+          {/* 先来个狗逼圆！ */}
         <Surface width={300} height={200}>
-          <Shape d={path} stroke="purple" strokeWidth={2}/>
-          <Circle
-            cx="50"
-            cy="50"
-            r="50"
-            fill="pink"
-          />
+          {/* 外圈动态圆环 */}
+          <Shape d={path} stroke={color} strokeWidth={3}/>
+          {/* 内圈实心圆 */}
+          <Shape d={pathInner} stroke="purple" fill="purple" strokeWidth={0}/>
+
+          <Text strokeWidth={2} strokeDash={[2,1,2,1]} stroke="#000" font="bold 30px Heiti SC" path={pathText}> {this.state.externalCircleAlpha} </Text>
         </Surface>
-
-      {/*  <View style={[styles.circleView,{
-          backgroundColor:'purple',
-          width:150,
-          height:150,
-        }]}>
-        </View>
-        */}
-
       </View>
     );
   }
