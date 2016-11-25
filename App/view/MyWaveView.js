@@ -13,6 +13,8 @@ import {
   View,
   StyleSheet,
   ART,
+  ToastAndroid,
+  PanResponder,
 } from 'react-native';
 
 /**
@@ -52,9 +54,23 @@ class MyWaveView extends React.Component{
        */
       radius:40.0,
       externalCircleAlpha:1,
-    }
+    };
+    this.onStartShouldSetPanResponder = this.onStartShouldSetPanResponder.bind(this);
+    this.onPanResponderEnd = this.onPanResponderEnd.bind(this);
   }
 
+/**
+ * 组件即将被装载
+ */
+  componentWillMount() {
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponder:this.onStartShouldSetPanResponder,
+      onPanResponderEnd:this.onPanResponderEnd,
+    });
+  }
+  /**
+   * 组件已经被装载
+   */
   componentDidMount() {
     let self = this;
     this.intval = setInterval(
@@ -85,9 +101,36 @@ componentWillUnmount() {
   this.intval && clearInterval(this.intval);
 }
 
+
+/**
+ * 触摸处理
+ * @param evt : 事件
+ * @param gestureState : 手势
+ */
+onStartShouldSetPanResponder(evt,gestureState) {
+
+  /**
+   * 判断点是否落到中间的实心圆内
+   */
+
+  //  if(evt.locationX >= 108 && evt.locationX <= 180 && evt.locationY >= 64 && evt.locationY <= 136 ) {
+  //    return true;
+  //  }
+
+  return true;
+}
+
+/**
+ * 用户手离开触摸点
+ */
+onPanResponderEnd(evt,gestureState) {
+    ToastAndroid.show("evt.timestamp :"+evt.locationX ,ToastAndroid.SHORT);
+//  ToastAndroid.show("要爆炸了！",ToastAndroid.SHORT);
+}
+
   render(){
     const path = new Path()
-    .moveTo(150+(this.state.radius-40)/2,50-this.state.radius+40)
+    .lineTo(150+(this.state.radius-40)/2,50-this.state.radius+40)
     .arcTo(150+(this.state.radius-40)/2,100+this.state.radius-40,this.state.radius)
     .close();
     const pathInner = new Path()
@@ -99,15 +142,15 @@ componentWillUnmount() {
     .lineTo(135,250);
     const color = "rgba(128,0,128,"+this.state.externalCircleAlpha+")";
     return(
-      <View style={styles.containerLayout}>
+      <View {...this._panResponder.panHandlers}
+       style={styles.containerLayout}>
           {/* 先来个狗逼圆！ */}
         <Surface width={300} height={200}>
           {/* 外圈动态圆环 */}
           <Shape d={path} stroke={color} strokeWidth={3}/>
           {/* 内圈实心圆 */}
           <Shape d={pathInner} stroke="purple" fill="purple" strokeWidth={0}/>
-
-          <Text strokeWidth={2} strokeDash={[2,1,2,1]} stroke="#000" font="bold 30px Heiti SC" path={pathText}> {this.state.externalCircleAlpha} </Text>
+          <Text strokeWidth={2} strokeDash={[10,5]} stroke="#000" font="bold 30px Heiti SC" path={pathText}> {this.state.externalCircleAlpha} </Text>
         </Surface>
       </View>
     );
