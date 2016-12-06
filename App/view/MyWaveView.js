@@ -45,14 +45,32 @@ const radiusBuffer = 0;
 
 class MyWaveView extends React.Component{
 
+  propTypes:{
+    radius:React.PropTypes.number,
+    maxRadius:React.PropTypes.number,
+  }
+
   constructor(props) {
     super(props);
+
+    var myRadius = props.radius;
+    var maxRadius = props.maxRadius;
+
+    if(!myRadius || myRadius < 40) {
+      myRadius = 40;
+    }
+    if(!maxRadius || maxRadius-myRadius < 10) {
+      maxRadius = myRadius+10;
+    }
+
     this.state = {
       /**
        * 半径
        * @type {Number}
        */
-      radius:40.0,
+      radius:myRadius,
+      minRadius:myRadius,
+      maxRadius:maxRadius,
       externalCircleAlpha:1,
     };
     this.onStartShouldSetPanResponder = this.onStartShouldSetPanResponder.bind(this);
@@ -72,27 +90,41 @@ class MyWaveView extends React.Component{
    * 组件已经被装载
    */
   componentDidMount() {
+    this.initInterval();
+  }
+
+  initInterval() {
     let self = this;
     this.intval = setInterval(
       ()=>{
       let radius = this.state.radius;
       let alpha = this.state.externalCircleAlpha;
-      if(radius > 50.0) {
+      // if(radius > this.state.maxRadius) {
+      //   scaleLoopFlag = false;
+      //   radius = this.state.minRadius;
+      // } else {
+      //   scaleLoopFlag = true;
+      //   radius+=0.4;
+      // }
+
+      if(radius >= this.state.maxRadius) {
         scaleLoopFlag = false;
-        radius = 40.0;
-      } else {
-        scaleLoopFlag = true;
-        radius+=0.4;
+      } else if(radius <= this.state.minRadius) {
+          scaleLoopFlag = true;
       }
 
-      alpha = 1.0-(radius-40.0)/10.0;
+      radius += scaleLoopFlag?0.4:-0.4;
+
+      let threshold = this.state.maxRadius-this.state.minRadius;
+
+      alpha = 1.0-(radius-this.state.minRadius)/threshold;
       if(alpha < 0.01)
         alpha = 0.01;
       if(alpha > 1)
         alpha = 1;
       self.setState({
         radius:radius,
-        externalCircleAlpha:alpha,
+    //    externalCircleAlpha:alpha,
       });
     },1);
   }
@@ -125,16 +157,48 @@ onStartShouldSetPanResponder(evt,gestureState) {
  */
 onPanResponderEnd(evt,gestureState) {
     ToastAndroid.show("evt.timestamp :"+evt.locationX ,ToastAndroid.SHORT);
-//  ToastAndroid.show("要爆炸了！",ToastAndroid.SHORT);
+    let self = this;
+    self.setState({
+      radius:this.state.minRadius,
+      externalCircleAlpha:1,
+    });
+    this.intval && clearInterval(this.intval);
+    this.intval = setInterval(
+      ()=>{
+      let radius = this.state.radius;
+      let alpha = this.state.externalCircleAlpha;
+      if(radius > 2*this.state.maxRadius) {
+        self.setState({
+          radius:this.state.minRadius,
+        });
+        this.initInterval();
+        clearInterval(this);
+        radius = this.state.minRadius;
+      } else {
+        radius+=0.4;
+      }
+
+      let threshold = 2*this.state.maxRadius-this.state.minRadius;
+
+      alpha = 1.0-(radius-this.state.minRadius)/threshold;
+      if(alpha < 0.01)
+        alpha = 0.01;
+      if(alpha > 1)
+        alpha = 1;
+      self.setState({
+        radius:radius,
+        externalCircleAlpha:alpha,
+      });
+    },1);
 }
 
   render(){
     const path = new Path()
-    .lineTo(150+(this.state.radius-40)/2,50-this.state.radius+40)
-    .arcTo(150+(this.state.radius-40)/2,100+this.state.radius-40,this.state.radius)
+    .moveTo(150+(this.state.radius-this.state.minRadius)/2,50-this.state.radius+this.state.minRadius)
+    .arcTo(150+(this.state.radius-this.state.minRadius)/2,100+this.state.radius-this.state.minRadius,this.state.radius)
     .close();
     const pathInner = new Path()
-    .lineTo(144,50)
+    .moveTo(144,50)
     .arcTo(144,100,36)
     .close();
     const pathText = new Path()
