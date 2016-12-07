@@ -4,7 +4,6 @@
   主页
   @author kongdy
 **/
-
 'use strict'; // 启用严格模式
 import React,{Component} from 'react';
 import{
@@ -87,7 +86,7 @@ class Home extends React.Component {
         </Text>
       </TouchableHighlight>
       </View>
-            </View>
+    </View>
 
     );
   }
@@ -111,6 +110,7 @@ const styles = StyleSheet.create({
   image:{
     height:150,
     justifyContent:'center',
+    resizeMode:'stretch', // 根据布局大小对图片进行调整 cover 裁剪  stretch 拉伸  contain 包含
   },
   myTextInputStyle1:{
     fontSize:15,
@@ -145,6 +145,10 @@ const styles = StyleSheet.create({
       marginRight:10,
       marginTop:10,
       marginBottom:10,
+      shadowRadius:300,
+      shadowColor:"#FF0000",
+      shadowOffset:null,
+      shadowOpacity:1,
     },
 });
 

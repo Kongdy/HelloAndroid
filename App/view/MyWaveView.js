@@ -99,13 +99,6 @@ class MyWaveView extends React.Component{
       ()=>{
       let radius = this.state.radius;
       let alpha = this.state.externalCircleAlpha;
-      // if(radius > this.state.maxRadius) {
-      //   scaleLoopFlag = false;
-      //   radius = this.state.minRadius;
-      // } else {
-      //   scaleLoopFlag = true;
-      //   radius+=0.4;
-      // }
 
       if(radius >= this.state.maxRadius) {
         scaleLoopFlag = false;
@@ -115,16 +108,8 @@ class MyWaveView extends React.Component{
 
       radius += scaleLoopFlag?0.4:-0.4;
 
-      let threshold = this.state.maxRadius-this.state.minRadius;
-
-      alpha = 1.0-(radius-this.state.minRadius)/threshold;
-      if(alpha < 0.01)
-        alpha = 0.01;
-      if(alpha > 1)
-        alpha = 1;
       self.setState({
         radius:radius,
-    //    externalCircleAlpha:alpha,
       });
     },1);
   }
@@ -159,7 +144,6 @@ onPanResponderEnd(evt,gestureState) {
     ToastAndroid.show("evt.timestamp :"+evt.locationX ,ToastAndroid.SHORT);
     let self = this;
     self.setState({
-      radius:this.state.minRadius,
       externalCircleAlpha:1,
     });
     this.intval && clearInterval(this.intval);
@@ -167,28 +151,27 @@ onPanResponderEnd(evt,gestureState) {
       ()=>{
       let radius = this.state.radius;
       let alpha = this.state.externalCircleAlpha;
-      if(radius > 2*this.state.maxRadius) {
+      if(radius >= 2*this.state.maxRadius) {
         self.setState({
           radius:this.state.minRadius,
+          externalCircleAlpha:1,
         });
-        this.initInterval();
-        clearInterval(this);
-        radius = this.state.minRadius;
+        clearInterval(self.intval);
+        self.initInterval();
       } else {
-        radius+=0.4;
+        radius+=1.6;
+        let threshold = 2*this.state.maxRadius-this.state.minRadius;
+
+        alpha = 1.0-(radius-this.state.minRadius)/threshold;
+        if(alpha < 0.01)
+          alpha = 0.01;
+        if(alpha > 1)
+          alpha = 1;
+        self.setState({
+          radius:radius,
+          externalCircleAlpha:alpha,
+        });
       }
-
-      let threshold = 2*this.state.maxRadius-this.state.minRadius;
-
-      alpha = 1.0-(radius-this.state.minRadius)/threshold;
-      if(alpha < 0.01)
-        alpha = 0.01;
-      if(alpha > 1)
-        alpha = 1;
-      self.setState({
-        radius:radius,
-        externalCircleAlpha:alpha,
-      });
     },1);
 }
 
