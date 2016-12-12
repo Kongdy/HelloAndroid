@@ -124,13 +124,14 @@ class AppMain extends Component {
   pageItemRenderView(rowData,selectId,rowId) {
     return(
       <View>
-         <Text style={{flexWrap:'wrap',position:'absolute',fontSize:20,color:'white',backgroundColor:'rgba(128,0,128,0.8)',width:Dimensions.get('window').width,zIndex:99999
+      { /*<Text style={{flexWrap:'wrap',position:'absolute',fontSize:20,color:'white',backgroundColor:'rgba(128,0,128,0.8)',width:Dimensions.get('window').width,zIndex:2
        ,bottom:0}}>
            {rowData.left.wname}
          </Text>
+         */}
         <Image
          source={{uri:rowData.left.imageurl}}
-         style={{resizeMode:'stretch',width:Dimensions.get('window').width,flex:1}}/>
+         style={{resizeMode:'stretch',width:Dimensions.get('window').width,flex:1,zIndex:1}}/>
       </View>);
   }
 

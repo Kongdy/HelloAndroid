@@ -141,7 +141,6 @@ onStartShouldSetPanResponder(evt,gestureState) {
  * 用户手离开触摸点
  */
 onPanResponderEnd(evt,gestureState) {
-    ToastAndroid.show("evt.timestamp :"+evt.locationX ,ToastAndroid.SHORT);
     let self = this;
     self.setState({
       externalCircleAlpha:1,

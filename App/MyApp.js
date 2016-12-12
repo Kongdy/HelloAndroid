@@ -17,6 +17,7 @@ import {
   WebView,
   Text,
   TouchableOpacity,
+  ToastAndroid,
   Image,
 } from 'react-native';
 
@@ -41,7 +42,7 @@ class MyApp extends React.Component {
     }
 
   configureScene(route,routeStack){
-    return Navigator.SceneConfigs.PushFromRight;
+    return Navigator.SceneConfigs.FloatFromRight;
   }
 
   goBack() {

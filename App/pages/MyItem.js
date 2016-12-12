@@ -10,6 +10,7 @@ import {
 View,
 StyleSheet,
 ToastAndroid,
+InteractionManager,
 } from 'react-native';
 
 import MyCircleView from '../view/MyCircleView';
@@ -35,7 +36,25 @@ class MyItem extends React.Component {
  * 生命周期，控件初始化完毕之后
  */
     componentDidMount(){
-      this.startProgressAnima();
+
+      /**
+       * 在页面切换完成之后再加载动画
+       */
+      const{navigator} = this.props;
+      this._listeners = [
+          navigator.navigationContext.addListener('didfocus',()=>this.startProgressAnima()),
+      ];
+
+      // navigator.onDidFocus(
+      //     () => {
+      //       self.startProgressAnima();
+      //     }
+      // );
+      // InteractionManager.runAfterInteractions(
+      //   ()=>{
+      //       self.startProgressAnima();
+      //   }
+      // );
     }
 
 /**
@@ -51,7 +70,14 @@ class MyItem extends React.Component {
  * 生命周期，控件即将从界面移除
  */
     componentWillUnmount(){
+      /**
+       * 移除所有计时器
+       */
       this.intval && clearInterval(this.intval);
+      /**
+       * 移除所有监听
+       */
+      this._listeners && this._listeners.forEach(listener=>listener.remove());
     }
 
     startProgressAnima() {
@@ -72,7 +98,6 @@ class MyItem extends React.Component {
       this.state = {
         percent:0,
       }
-      ToastAndroid.show('click',ToastAndroid.SHORT);
       clearInterval(this.intval);
       this.startProgressAnima();
     }

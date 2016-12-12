@@ -82,7 +82,6 @@ class MyCircleView extends React.Component {
  */
   onStartShouldSetPanResponder(evt,gestureState) {
     if(evt.locationX <0 || evt.locationY < 0) {
-      ToastAndroid.show("lost",ToastAndroid.SHORT);
       return false;
     }
     return true;
